@@ -1,0 +1,10 @@
+[Settings]
+Priority=Default
+
+[Default]
+DeployRoot=\\<MyMDT_Svr>\<MyMDT_DS>$
+UserID=du
+UserDomain=HLAB
+UserPassword=p@ssw0rd
+KeyboardLocale=en-US
+SkipBDDWelcome=YES

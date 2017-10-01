@@ -1,0 +1,23 @@
+# Install and Configure WDS server
+#Add-WindowsFeature -Name WDS
+#WdsMgmt.msc    
+#Read-Host "Right Click the Server and go through the configuration wizard. Press to continue..."
+
+# Run the following commands on WDS server to Import the boot wim file. 
+$MDT_Server = "S12gMDTdpr"
+$DS_Name = "DS2"
+$Cred = Get-Credential -Credential hlab\da
+New-PSDrive -PSProvider FileSystem -Name W -Root \\${MDT_Server}\${DS_Name}$ -Credential $Cred
+Copy-Item -Path W:\Boot\LiteTouchPE_x64.wim -Destination C:\ -Force
+Copy-Item -Path W:\Boot\LiteTouchPE_x86.wim -Destination C:\ -Force
+
+Get-WdsBootImage | Where-Object ImageName -like "*${MDT_Server}*" | Select-Object Architecture, CreationTime, Enabled, imagename, Filename | ft -AutoSize
+Get-WdsBootImage | Where-Object ImageName -like "*${MDT_Server}*" | Remove-WdsBootImage
+Import-WdsBootImage -Path C:\LiteTouchPE_x64.wim -NewImageName "Lite Touch Windows PE (x64) ${MDT_Server}\${DS_Name}$"
+Import-WdsBootImage -Path C:\LiteTouchPE_x86.wim -NewImageName "Lite Touch Windows PE (x86) ${MDT_Server}\${DS_Name}$"
+# Remove old boot WIMs and Import new Boot WIMs on WDS server
+# wdsutil.exe /Remove-Image /Image:"LiteTouchPE_x64" /ImageType:Boot /Architecture:x64
+# Get-WdsBootImage | select Name,Imagename,architecture
+# Remove-WdsBootImage -ImageName LiteTouchPE_x86 -Architecture x86
+
+
