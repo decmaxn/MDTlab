@@ -21,19 +21,20 @@ This README would normally document whatever steps are necessary to get your app
   * You need all the windows ISO, and installation packages of MDT, ADK.... 
   * Modify the vairiable part of each script to suite your environment, for example path to the Windows ISO, roll up update packages...
   * The scripts, one by one, will install MDT, create Deplyment share, and fully config it; create VM, and boot it up; the MDT procedure will automatically run and upload the reference image to this MDT server; the VM can be destroyed.  
+  * Create Deployment Share to deploy reference image can be automated as partially shown here. However, there are component more specific to each environment, like drivers and applications. You will have to customize them to suite your own environment.  
 
 
 ### Suggestions ###
 
   * The process takes a lot of disk I/O and SSD is suggested, especially on the Hyper-V host. 
+  * Tools like CMTrace64.exe, Toolsx64.cab and Toolsx86.cab are enhancement, and optional. You can downloaded them online. 
   * The scripts have been tested on Windows 2012 R2 server monthes before I submit them. It might not work out of the box, let me know if it's not working for you! 
 
 
 ### To Do List ###
 
   * Go through this again, and make a video to explain, so people with less knowledge of MDT can use it. 
-  * It's not fully automated, I will continue the work when necessary. 
-  * Deploy the reference image can be automated as well. Some scripts are there as deployment share called DS2. 
+  * It's not fully automated, I will continue the work later when I have time.
 
 
 ### Who do I talk to? ###
