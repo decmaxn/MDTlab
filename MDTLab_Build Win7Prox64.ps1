@@ -79,6 +79,6 @@ Read-Host "Click OK, wait for it to close up, and press any key to contiue here.
 update-MDTDeploymentShare -path "DS001:"
 
 $VM_Host = "S16GuiTest"
-Read-Host "Modify MDTLab_CreateVM.ps1 to creat/boot VM:$BuildTS_ID, it will automatically deploy above OS, Capture to ${Captured_WIM}."
+Write-Host "Modify MDTLab_CreateVM.ps1 to creat/boot VM:$BuildTS_ID, it will automatically deploy above OS, Capture to ${Captured_WIM}."
 Read-Host "Press if the Hyper-V host is $VM_Host..."
 Invoke-Command -ComputerName $VM_Host -FilePath ${INI_Source}\MDTLab_CreateVM.ps1
