@@ -67,7 +67,7 @@ Get-Content $INI_Source\MDTLab_CustomSettings.ini.DS1 `
 | % {$_ -replace "<MyBuilding_TSID>","$BuildTS_ID"} `
 | % {$_ -replace "<MyMDT_Svr>","$MDT_Server"} `
 | Out-File -Encoding ascii ${DS_Folder}\Control\CustomSettings.ini
-Get-Content $INI_Source\MDTLab_Bootstrap.ini.DS`
+Get-Content $INI_Source\MDTLab_Bootstrap.ini.DS `
 | % {$_ -replace "<MyMDT_Svr>","${MDT_Server}"} `
 | % {$_ -replace "<MyMDT_DS>","${DS_Name}"} `
 | Out-File -Encoding ascii ${DS_Folder}\Control\Bootstrap.ini
