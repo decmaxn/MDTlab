@@ -1,6 +1,6 @@
 $MDT_Server = "$(hostname)"
 
-$Package_Share = "\\S12GuiMDT\e$"
+$Package_Share = "\\hlabs12st1\e$\USBDrive"
 $MDT_Package = "E:\Windows Deployment\Microsoft\MDT\MDT2013Update2\MicrosoftDeploymentToolkit2013_x64.msi"
 $ADK_Package = "E:\Windows Deployment\Microsoft\Windows Kits\10\ADK\adksetup.exe"
 

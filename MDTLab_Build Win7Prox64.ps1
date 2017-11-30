@@ -1,8 +1,9 @@
 ﻿$MDT_Server = $(hostname)
 $DS_Folder = "C:\DS1"
 $DS_Name = "DS1"
+$INI_Source = "C:\Users\da\Downloads\MDTlab"
 
-$Package_Share = "\\S12GuiMDT\e$"
+$Package_Share = "\\hlabs12st1\e$\USBDrive"
 if (! (Test-Path E:)) {
     net use E: /delete
     net use E: $Package_Share
@@ -61,7 +62,6 @@ Read-Host "Follow above Instructions. Press to continue..."
 $Captured_WIM = ${BuildTS_ID} + "_" + $(get-date -f yyyyMMdd) + ".wim"
 
 # Update Deployment Share, to be ready to build the image.
-$INI_Source = "C:\Users\da\Downloads"
 Get-Content $INI_Source\MDTLab_CustomSettings.ini.DS1 `
 | % {$_ -replace "<MyCaptured_WIMfile>","$Captured_WIM"} `
 | % {$_ -replace "<MyBuilding_TSID>","$BuildTS_ID"} `
