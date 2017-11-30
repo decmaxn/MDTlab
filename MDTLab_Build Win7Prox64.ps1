@@ -51,13 +51,22 @@ import-MDTApplication -path "DS001:\Applications\${OS_folder}" -enable "True" -N
 Write-Host "Maually add dependency of Convenience Rollup with April 2015 Servicing Stack. Press to continue..."
 Read-Host "Follow above comments. Press to continue..."
 
-$AppName = "Update – 201708 Security Monthly Rollup (KB4034664) – Win7x64"
-$AppSourcePath = "E:\Windows\ServicePack2_Windows 7 and Server 2008 R2 SP1 (KB976932)\2017-08 Security Monthly Rollup for Windows 7 x64(KB4034664)"
-$AppCmdline = "wusa.exe windows6.1-kb4034664-x64_e4daa48a7407d5921d004dd550d62d91bf25839e.msu /quiet /norestart" 
+#$AppName = "Update – 201708 Security Monthly Rollup (KB4034664) – Win7x64"
+#$AppSourcePath = "E:\Windows\ServicePack2_Windows 7 and Server 2008 R2 SP1 (KB976932)\2017-08 Security Monthly Rollup for Windows 7 x64(KB4034664)"
+#$AppCmdline = "wusa.exe windows6.1-kb4034664-x64_e4daa48a7407d5921d004dd550d62d91bf25839e.msu /quiet /norestart" 
+#import-MDTApplication -path "DS001:\Applications\${OS_folder}" -enable "True" -Name ${AppName} -ShortName ${AppName} -Version "" -Publisher "" -Language "" -CommandLine ${AppCmdline} -WorkingDirectory ".\Applications\${AppName}" -ApplicationSourcePath ${AppSourcePath} -DestinationFolder ${AppName}
+#Write-Host "Maually add dependency of 201708 Security Monthly Rollup with Convenience Rollup. Press to continue..."
+#Write-Host "Maually Modify ${BuildTS_Name} to include ${AppName},Reboot, before enabled "Windows Update", Reboot. "
+#Read-Host "Follow above Instructions. Press to continue..."
+
+$AppName = "Update – 201711 Security Monthly Rollup (KB976932) – Win7x64"
+$AppSourcePath = "E\Windows\ServicePack2_Windows 7 and Server 2008 R2 SP1 (KB976932)\2017-11 Security Monthly Quality for Windows 7 x64(KB4048957)"
+$AppCmdline = "wusa.exe windows6.1-kb4048957-x64_83688ecf3a901fc494ee67b5c57e35f0a09dc455.msu /quiet /norestart" 
 import-MDTApplication -path "DS001:\Applications\${OS_folder}" -enable "True" -Name ${AppName} -ShortName ${AppName} -Version "" -Publisher "" -Language "" -CommandLine ${AppCmdline} -WorkingDirectory ".\Applications\${AppName}" -ApplicationSourcePath ${AppSourcePath} -DestinationFolder ${AppName}
-Write-Host "Maually add dependency of 201708 Security Monthly Rollup with Convenience Rollup. Press to continue..."
+Write-Host "Maually add dependency of 201711 Security Monthly Rollup with Convenience Rollup. Press to continue..."
 Write-Host "Maually Modify ${BuildTS_Name} to include ${AppName},Reboot, before enabled "Windows Update", Reboot. "
 Read-Host "Follow above Instructions. Press to continue..."
+
 
 $Captured_WIM = ${BuildTS_ID} + "_" + $(get-date -f yyyyMMdd) + ".wim"
 

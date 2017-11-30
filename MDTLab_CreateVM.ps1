@@ -1,10 +1,13 @@
-$MDT_Server = "S12gMDTbdr"
+$MDT_Server = "BW10Ent1703x64"
 $DS_Name = "DS1"
 $TempVM = "BW7Px64"
 $RAMDisk = "I:\"
 
 # Copy over ISO file, so I can use it to boot VM withou involve WDS server. 
-if (! (Test-Path O:)) { net use O: "\\${MDT_Server}\${DS_Name}$" /user:hlab\du p@ssw0rd }
+if (! (Test-Path O:)) { 
+    net use O: /delete
+    net use O: "\\${MDT_Server}\${DS_Name}$" /user:hlab\du p@ssw0rd 
+    }
 
 Copy-Item -Path O:\Boot\LiteTouchPE_x64.iso -Destination ${RAMDisk}\${MDT_Server}_${DS_Name}'$'_LiteTouchPE_x64.iso -PassThru
 #Copy-Item -Path O:\Boot\LiteTouchPE_x86.iso -Destination ${RAMDisk}\${MDT_Server}_${DS_Name}'$'_LiteTouchPE_x86.iso -PassThru
