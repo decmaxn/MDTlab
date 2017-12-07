@@ -4,6 +4,12 @@ $DS_Name = "DS2"
 $DS_Desc = "MDT Deployer"
 $BuilderAccount = "du"
 
+$Package_Share = "\\hlabs12st1\e$\USBDrive"
+if (! (Test-Path E:)) {
+    net use E: /delete
+    net use E: $Package_Share
+    }
+
 New-Item -Path "${DS_Folder}" -ItemType directory
 # Creat the deployment share
 New-SmbShare -Name "${DS_Name}$" -Path "${DS_Folder}" -FullAccess Administrators -ChangeAccess $BuilderAccount
@@ -51,4 +57,4 @@ new-item -path "DS002:\Selection Profiles" -enable "True" -Name "${OS_folder}" -
 import-mdtdriver -path "DS002:\Out-of-Box Drivers\WinPE10x64" `
 -SourcePath "e:\hp\HP WinPE Driver Packs\SP78464-WinPE10DriverPack\WinPE10_1.30\x64_winpe10\network" `
 -Verbose
-Read-Host "Modify the WinPE to include only drivers in their own Selection Profiles, press to continue"
+Write-Host "Modify the WinPE to include only drivers in their own Selection Profiles."

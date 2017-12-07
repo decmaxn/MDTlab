@@ -4,8 +4,8 @@
 #Read-Host "Right Click the Server and go through the configuration wizard. Press to continue..."
 
 # Run the following commands on WDS server to Import the boot wim file. 
-$MDT_Server = "S12gMDTdpr"
-$DS_Name = "DS2"
+$MDT_Server = "<MyMDT_Svr>"
+$DS_Name = "<MyMDT_DS>"
 $Cred = Get-Credential -Credential hlab\da
 New-PSDrive -PSProvider FileSystem -Name W -Root \\${MDT_Server}\${DS_Name}$ -Credential $Cred
 Copy-Item -Path W:\Boot\LiteTouchPE_x64.wim -Destination C:\ -Force

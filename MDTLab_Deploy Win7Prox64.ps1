@@ -1,17 +1,20 @@
 ﻿$MDT_Server = $(hostname)
 $DS_Folder = "C:\DS2"
 $DS_Name = "DS2"
+$INI_Source = "C:\Users\da\Downloads\MDTlab"
+$WDS_Server = "HLABS16CTX"
 
-$Package_Share = "\\S12GuiMDT\e$"
+$Package_Share = "\\hlabs12st1\e$\USBDrive"
 if (! (Test-Path E:)) {
     net use E: /delete
     net use E: $Package_Share
     }
 
+$Image_Share = "\\DESKTOP-F311JPG\DS1$\Captures"
 $BuildTS_ID = "BW7Px64"
-$Captured_WIM = "BW7Px64_20170903.wim" 
+$Captured_WIM = "BW7Px64_20171206.wim" 
 Write-Host "Making sure the Captured Windows WIm file is inplace...."
-if (! (Test-Path C:\${Captured_WIM})) { copy "E:\Temp\BW7Px64_20170903.wim" C:\${Captured_WIM} }
+if (! (Test-Path C:\${Captured_WIM})) { copy "${Image_Share}\${Captured_WIM}" C:\${Captured_WIM} }
 $Deploy_Dest_Folder = "Captured Windows 7 Pro x64"
 $OS_folder = "W7X64"
 
@@ -33,14 +36,12 @@ import-mdttasksequence -path "DS002:\Task Sequences\${OS_folder}" -Name ${Deploy
 $DeployTS_Name = "Deploy Win7 Pro x64 to VHD file from Captured WIM file"
 $DeployTS_ID = "DvW7Px64"
 import-mdttasksequence -path "DS002:\Task Sequences\${OS_Folder}" -Name ${DeployTS_Name} -Template "VHDClient.xml" -Comments "" -ID ${DeployTS_ID} -Version "1.0" -OperatingSystemPath ${REF_Path} -FullName "user" -OrgName "LAB" -HomePage "about:blank" -AdminPassword "p@ssw0rd"
-
 # Creating Task sequence to Capture image
 $CaptureTS_Name = "Sysprep and Capture an Windows 7 Pro x64 installation" 
 $CaptureTS_ID = "CW7Px64"
 import-mdttasksequence -path "DS002:\Task Sequences\${OS_folder}" -Name ${CaptureTS_Name} -Template "CaptureOnly.xml" -Comments "" -ID $CaptureTS_ID -Version "1.0" -OperatingSystemPath $REF_Path -FullName "user" -OrgName "LAB" -HomePage "about:blank" -AdminPassword "p@ssw0rd"
 
 # Update Deployment Share, to be ready to build the image.
-$INI_Source = "C:\Users\da\Downloads"
 Get-Content $INI_Source\MDTLab_CustomSettings.ini.DS2 `
 | % {$_ -replace "<MyCaptured_WIMfile>","$Captured_WIM"} `
 | % {$_ -replace "<MyBuilding_TSID>","$BuildTS_ID"} `
@@ -55,9 +56,13 @@ Write-Host "             - in General tab, uncheck x86, click Apply."
 Write-Host "             - in Monitoring tab, check Enable Monitoring, click Apply."
 Write-Host "             - in PE tab, For x64 put ${INI_Source}\WinPE\x64 in Extra directory"
 Read-Host "Click OK, wait for it to close up, and press any key to contiue here."
+Write-Host "Updating Deployment Share..."
 update-MDTDeploymentShare -path "DS002:"
 
-$WDS_Server = "HLABS16CTX"
-Read-Host "Modify MDTLab_ImportBootImagesOnWDS.ps1 to import boot wim from ${MDT_Server}\${DS_Name}"
+Get-Content $INI_Source\MDTLab_ImportBootImagesOnWDS.template `
+| % {$_ -replace "<MyMDT_Svr>","${MDT_Server}"} `
+| % {$_ -replace "<MyMDT_DS>","${DS_Name}"} `
+| Out-File -Encoding ascii ${INI_Source}\MDTLab_ImportBootImagesOnWDS.ps1
+
 Write-Host "Logon to $WDS_Server and run this modified MDTLab_ImportBootImagesOnWDS.ps1 with elevated permission"
-# Invoke-Command -ComputerName $WDS_Server -FilePath ${INI_Source}\MDTLab_ImportBootImagesOnWDS.ps1
+Invoke-Command -ComputerName $WDS_Server -FilePath ${INI_Source}\MDTLab_ImportBootImagesOnWDS.ps1
