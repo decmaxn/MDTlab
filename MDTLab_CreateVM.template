@@ -1,6 +1,6 @@
-$MDT_Server = "BW10Ent1703x64"
-$DS_Name = "DS1"
-$TempVM = "BW7Px64"
+$MDT_Server = "<MyMDT_Svr>"
+$DS_Name = "<MyMDT_DS>"
+$TempVM = "<MyVM_Name>"
 $RAMDisk = "I:\"
 
 # Copy over ISO file, so I can use it to boot VM withou involve WDS server. 
@@ -33,5 +33,5 @@ Get-VMDvdDrive -VMName ${TempVM} `
 
 Write-Host "Start the VM..."
 Start-VM -Name ${TempVM}
-
+Write-Host 
 Write-Host "The TempVM ${TempVM} was created and started, the Base Image should be Captured before the VM is shutdown"

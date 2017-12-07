@@ -2,6 +2,7 @@
 $DS_Folder = "C:\DS1"
 $DS_Name = "DS1"
 $INI_Source = "C:\Users\da\Downloads\MDTlab"
+$VM_Host = "S16GuiTest"
 
 $Package_Share = "\\hlabs12st1\e$\USBDrive"
 if (! (Test-Path E:)) {
@@ -37,6 +38,7 @@ import-mdttasksequence -path "DS001:\Task Sequences\${OS_folder}" -Name $BuildTS
 $CaptureTS_Name = "Sysprep and Capture an Windows 7 Pro x64 installation" 
 $CaptureTS_ID = "CW7Px64"
 import-mdttasksequence -path "DS001:\Task Sequences\${OS_folder}" -Name ${CaptureTS_Name} -Template "CaptureOnly.xml" -Comments "" -ID $CaptureTS_ID -Version "1.0" -OperatingSystemPath $OS_Path -FullName "user" -OrgName "LAB" -HomePage "about:blank" -AdminPassword "p@ssw0rd"
+Write-Host
 
 # Create Appliation to install Big chunk of Windows updates right after install OS. 
 $AppName = "Update – April 2015 servicing stack – Win7x64"
@@ -48,23 +50,18 @@ $AppName = "Update –Convenience Roll Up (KB3125574) – Win7x64"
 $AppSourcePath = "E:\Windows\ServicePack2_Windows 7 and Server 2008 R2 SP1 (KB976932)\Convenience Roll Up (KB3125574)"
 $AppCmdline = "wusa.exe windows6.1-kb3125574-v4-x64_2dafb1d203c8964239af3048b5dd4b1264cd93b9.msu /quiet /norestart" 
 import-MDTApplication -path "DS001:\Applications\${OS_folder}" -enable "True" -Name ${AppName} -ShortName ${AppName} -Version "" -Publisher "" -Language "" -CommandLine ${AppCmdline} -WorkingDirectory ".\Applications\${AppName}" -ApplicationSourcePath ${AppSourcePath} -DestinationFolder ${AppName}
-Write-Host "Maually add dependency of Convenience Rollup with April 2015 Servicing Stack. Press to continue..."
-Read-Host "Follow above comments. Press to continue..."
-
-#$AppName = "Update – 201708 Security Monthly Rollup (KB4034664) – Win7x64"
-#$AppSourcePath = "E:\Windows\ServicePack2_Windows 7 and Server 2008 R2 SP1 (KB976932)\2017-08 Security Monthly Rollup for Windows 7 x64(KB4034664)"
-#$AppCmdline = "wusa.exe windows6.1-kb4034664-x64_e4daa48a7407d5921d004dd550d62d91bf25839e.msu /quiet /norestart" 
-#import-MDTApplication -path "DS001:\Applications\${OS_folder}" -enable "True" -Name ${AppName} -ShortName ${AppName} -Version "" -Publisher "" -Language "" -CommandLine ${AppCmdline} -WorkingDirectory ".\Applications\${AppName}" -ApplicationSourcePath ${AppSourcePath} -DestinationFolder ${AppName}
-#Write-Host "Maually add dependency of 201708 Security Monthly Rollup with Convenience Rollup. Press to continue..."
-#Write-Host "Maually Modify ${BuildTS_Name} to include ${AppName},Reboot, before enabled "Windows Update", Reboot. "
-#Read-Host "Follow above Instructions. Press to continue..."
 
 $AppName = "Update – 201711 Security Monthly Rollup (KB4048957) – Win7x64"
 $AppSourcePath = "E:\Windows\ServicePack2_Windows 7 and Server 2008 R2 SP1 (KB976932)\2017-11 Security Monthly Quality for Windows 7 x64(KB4048957)"
 $AppCmdline = "wusa.exe windows6.1-kb4048957-x64_83688ecf3a901fc494ee67b5c57e35f0a09dc455.msu /quiet /norestart" 
 import-MDTApplication -path "DS001:\Applications\${OS_folder}" -enable "True" -Name ${AppName} -ShortName ${AppName} -Version "" -Publisher "" -Language "" -CommandLine ${AppCmdline} -WorkingDirectory ".\Applications\${AppName}" -ApplicationSourcePath ${AppSourcePath} -DestinationFolder ${AppName}
-Write-Host "Maually add dependency of 201711 Security Monthly Rollup with Convenience Rollup. Press to continue..."
-Write-Host "Maually Modify ${BuildTS_Name} to include ${AppName},Reboot, before enabled "Windows Update", Reboot. "
+Write-Host
+Write-Host "Maually add dependency of:-"
+Write-host "        - application [Convenience Rollup] with application [April 2015 Servicing Stack]."
+Write-host "        - application [201711 Security Monthly Rollup] with application [Convenience Rollup]."
+Write-Host "Maually modify Task Sequence:[${BuildTS_Name}] to:-"
+Write-Host "        - include application:[${AppName}] before the 1st [Windows Update], follow by a Reboot,"
+Write-Host "        - Enable the 2nd [Windows Update], follow by a Reboot. "
 Read-Host "Follow above Instructions. Press to continue..."
 
 
@@ -85,9 +82,17 @@ Write-Host "             - in General tab, uncheck x86, click Apply."
 Write-Host "             - in Monitoring tab, check Enable Monitoring, click Apply."
 Write-Host "             - in PE tab, For x64 put ${INI_Source}\WinPE\x64 in Extra directory"
 Read-Host "Click OK, wait for it to close up, and press any key to contiue here."
+Write-Host "Updating Deployment Share..."
 update-MDTDeploymentShare -path "DS001:"
 
-$VM_Host = "S16GuiTest"
-Write-Host "Modify MDTLab_CreateVM.ps1 to creat/boot VM:$BuildTS_ID, it will automatically deploy above OS, Capture to ${Captured_WIM}."
-Read-Host "Press if the Hyper-V host is $VM_Host..."
+
+Get-Content $INI_Source\MDTLab_CreateVM.template `
+| % {$_ -replace "<MyMDT_Svr>","${MDT_Server}"} `
+| % {$_ -replace "<MyMDT_DS>","${DS_Name}"} `
+| % {$_ -replace "<MyVM_Name>","${BuildTS_ID}"} `
+| Out-File -Encoding ascii ${INI_Source}\MDTLab_CreateVM.ps1
 Invoke-Command -ComputerName $VM_Host -FilePath ${INI_Source}\MDTLab_CreateVM.ps1
+Write-Host 
+Write-Host "Check your Hyper-V host:[$VM_Host] for VM: [$BuildTS_ID], wait for it to be shutdown."
+Write-Host "then verify $DS_Folder\Captures folder for ${Captured_WIM}."
+Write-Host "It might takes a few hours."
