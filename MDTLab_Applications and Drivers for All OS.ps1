@@ -1,8 +1,9 @@
 ﻿$MDT_Server = "$(hostname)"
 $DS_Folder = "C:\DS2"
 $PSDriveName = "DS002"
+$HP_SSM_Repo = "S12GuiMDT"
 
-$Package_Share = "\\S12GuiMDT\e$"
+$Package_Share = "\\hlabs12st1\e$\USBDrive"
 if (! (Test-Path E:)) {
     net use E: /delete
     net use E: $Package_Share
@@ -31,7 +32,7 @@ import-MDTApplication `
 -Name "Drivers - HP SSM v1" `
 -ShortName "Drivers - HP SSM v1" `
 -Version "" -Publisher "" -Language "" `
--CommandLine "\\S12GuiMDT\HP\ssm.exe \\S12GuiMDT\HP /accept /install /noreboot" `
+-CommandLine "\\${HP_SSM_Repo}\HP\ssm.exe \\${HP_SSM_Repo}\HP /accept /install /noreboot" `
 -WorkingDirectory ".\Applications\" `
 -NoSource -Verbose
 
