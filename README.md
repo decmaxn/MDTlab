@@ -19,9 +19,9 @@ This README would normally document whatever steps are necessary to get your app
     You can also load the boot image to your WDS server, but it not as convenient as Hyper-V.
   * You need all the windows ISO, and installation packages of MDT, ADK.... 
   * Modify the vairiable part of each script to suite your environment, for example path to the Windows ISO, roll up update packages...
-  * The scripts, one by one, will install MDT, create Deplyment share, and fully config it; create VM, and boot it up; the MDT procedure will automatically run and upload the reference image to this MDT server; the VM can be destroyed. Watch the following video:
-[![Demo PowerShell scripts to Build Base Image by MDT](http://img.youtube.com/vi/VCdjVIk81uQ/hqdefault.jpg)](https://youtu.be/VCdjVIk81uQ "Demo PowerShell scripts to Build Base Image by MDT")
-  * Create Deployment Share to deploy reference image can be automated as partially shown here. However, there are component more specific to each environment, like drivers and applications. You will have to customize them to suite your own environment. Watch the following video: 
+  * The scripts, one by one, will install MDT, create Deplyment share, and fully config it; create VM, and boot it up; the MDT procedure will automatically run and upload the reference image to this MDT server; the VM can be destroyed.  Wathch the following video:
+[![Demo PowerShell scripts to Build Base Image with MDT](http://img.youtube.com/vi/VCdjVIk81uQ/hqdefault.jpg)](https://youtu.be/VCdjVIk81uQ "Demo PowerShell scripts to Build Base Image with MDT")
+  * Create Deployment Share to deploy reference image can be automated as partially shown here. However, there are component more specific to each environment, like drivers and applications. You will have to customize them to suite your own environment.  Wathch the following video:
 [![Demo PowerShell scripts to Deploy Base Image with MDT](http://img.youtube.com/vi/89oQDXtOYjU/hqdefault.jpg)](https://youtu.be/89oQDXtOYjU "Demo PowerShell scripts to Deploy Base Image with MDT")
 
 ### Suggestions ###
