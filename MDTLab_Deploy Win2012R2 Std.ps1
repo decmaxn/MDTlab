@@ -16,7 +16,7 @@ $BuildTS_ID = "BS12R2Stdx64"
 $Captured_WIM = "BS12R2Stdx64_20171208.wim" 
 Write-Host "Making sure the Captured Windows WIm file is inplace...."
 if (! (Test-Path C:\${Captured_WIM})) { copy "${Image_Share}\${Captured_WIM}" C:\${Captured_WIM} }
-$Deploy_Dest_Folder = "Captured Win10 Ent v1703 x64"
+$Deploy_Dest_Folder = "Captured Srv12R2 Std x64"
 $OS_folder = "S12"
 
 # Import the Captures Image done above
