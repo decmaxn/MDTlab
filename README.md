@@ -1,15 +1,12 @@
- # MDTlab
-
-
-This README would normally document whatever steps are necessary to get your application up and running.
+ # MDTLab - MDT infrastructure as code
 
 
 ### What is this repository for? ###
 
-  * Shorten the time it takes to apply Windows updates. 
-    Building Windows reference image from DVD would take long time due to the accumulated Windows Updates, especially for Windows 7 which is there for long time. I was courious about how long it really takes, and have run a test on a HP EliteBook 8530, it took more than a week. This script using Microsoft official roll up updates, made it just a few hours. 
-
-  * Automate the Windows Reference Images automatically.
+  * Build MDT infrastructure as code, to eliminate all the traditional IT operation work, like backup, etc. 
+  * Shorten the time it takes to apply Windows updates.  
+    Building Windows reference image from DVD would take long time due to the accumulated Windows Updates, especially for Windows 7. I was courious about how long it really takes, and found it took more than a week for a decent laptop. This script using Microsoft official roll up updates, made it just a few hours. 
+  * Automate the Windows Reference Images automatically.  
     From time to time, you will have to rebuild the reference image, it's a standard procedure which I have scripted most parts with this script. 
   
 
