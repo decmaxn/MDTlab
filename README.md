@@ -6,9 +6,7 @@
   * Build MDT infrastructure as code, to eliminate all the traditional IT operation work, like backup, etc. 
   * Shorten the time it takes to apply Windows updates.  
     Building Windows reference image from DVD would take long time due to the accumulated Windows Updates, especially for Windows 7. I was courious about how long it really takes, and found it took more than a week for a decent laptop. This script using Microsoft official roll up updates, made it just a few hours. 
-  * Automate the Windows Reference Images automatically.  
-    From time to time, you will have to rebuild the reference image, it's a standard procedure which I have scripted most parts with this script. 
-  
+  * Script the whole Windows Reference Image creation process, to eliminate maintaining a master base image.
 
 ### How do I get set up? ###
   * You have clone this repo on a Windows, which will be turn into MDT server. 
