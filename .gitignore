@@ -1,0 +1,4 @@
+x64/**
+x86/**
+MDTLab_CreateVM.ps1
+MDTLab_ImportBootImagesOnWDS.ps1

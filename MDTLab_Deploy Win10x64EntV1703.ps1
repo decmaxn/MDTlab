@@ -11,12 +11,12 @@ if (! (Test-Path E:)) {
     }
 
 $Image_Share = "\\DESKTOP-F311JPG\DS1$\Captures"
-$BuildTS_ID = "BW7Px64"
-$Captured_WIM = "BW7Px64_20171206.wim" 
+$BuildTS_ID = "BW10Ent1703x64"
+$Captured_WIM = "BW10Ent1703x64_20171208.wim" 
 Write-Host "Making sure the Captured Windows WIm file is inplace...."
 if (! (Test-Path C:\${Captured_WIM})) { copy "${Image_Share}\${Captured_WIM}" C:\${Captured_WIM} }
-$Deploy_Dest_Folder = "Captured Windows 7 Pro x64"
-$OS_folder = "W7X64"
+$Deploy_Dest_Folder = "Captured Win10 Ent v1703 x64"
+$OS_folder = "W10x64"
 
 # Import the Captures Image done above
 Import-Module "C:\Program Files\Microsoft Deployment Toolkit\bin\MicrosoftDeploymentToolkit.psd1"
@@ -29,16 +29,16 @@ Read-Host "Name : ${BuildTS_ID}DDrive in ${Deploy_Dest_Folder} ${Captured_WIM}" 
 $REF_Path = "DS002:\Operating Systems\${OS_Folder}\${BuildTS_ID}DDrive in ${Deploy_Dest_Folder} ${Captured_WIM}"
 
 # Create Task Sequence to deploy the Captured Image done above
-$DeployTS_Name = "Deploy Win7 Pro x64 from Captured WIM file"
-$DeployTS_ID = "DW7Px64"
+$DeployTS_Name = "Deploy Win10 Ent v1703 x64 from Captured WIM file"
+$DeployTS_ID = "DW10Ent1703x64"
 import-mdttasksequence -path "DS002:\Task Sequences\${OS_folder}" -Name ${DeployTS_Name} -Template "Client.xml" -Comments "" -ID ${DeployTS_ID} -Version "1.0" -OperatingSystemPath ${REF_Path} -FullName "User" -OrgName "Home" -HomePage "about:blank" -AdminPassword "p@ssw0rd"
 # Create Task Sequence to deploy the Captured Image to VHD file
-$DeployTS_Name = "Deploy Win7 Pro x64 to VHD file from Captured WIM file"
-$DeployTS_ID = "DvW7Px64"
+$DeployTS_Name = "Deploy Win10 Ent v1703 x64 to VHD file from Captured WIM file"
+$DeployTS_ID = "DvW10Ent1703x64"
 import-mdttasksequence -path "DS002:\Task Sequences\${OS_Folder}" -Name ${DeployTS_Name} -Template "VHDClient.xml" -Comments "" -ID ${DeployTS_ID} -Version "1.0" -OperatingSystemPath ${REF_Path} -FullName "user" -OrgName "LAB" -HomePage "about:blank" -AdminPassword "p@ssw0rd"
 # Creating Task sequence to Capture image
-$CaptureTS_Name = "Sysprep and Capture an Windows 7 Pro x64 installation" 
-$CaptureTS_ID = "CW7Px64"
+$CaptureTS_Name = "Sysprep and Capture an Win10 Ent v1703 x64 installation" 
+$CaptureTS_ID = "CW10Ent1703x64"
 import-mdttasksequence -path "DS002:\Task Sequences\${OS_folder}" -Name ${CaptureTS_Name} -Template "CaptureOnly.xml" -Comments "" -ID $CaptureTS_ID -Version "1.0" -OperatingSystemPath $REF_Path -FullName "user" -OrgName "LAB" -HomePage "about:blank" -AdminPassword "p@ssw0rd"
 
 # Update Deployment Share, to be ready to build the image.

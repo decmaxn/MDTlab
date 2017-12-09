@@ -14,7 +14,7 @@ $ISO_Path = "C:\SW_DVD5_Win_Pro_7w_SP1_64BIT_English_-2_Upg_MLF_X17-59282.ISO"
 Write-Host "Making sure the Windows ISO file is inplace...."
 if (! (Test-Path $ISO_Path)) { copy "E:\Windows\Win7\SW_DVD5_Win_Pro_7w_SP1_64BIT_English_-2_Upg_MLF_X17-59282.ISO" $ISO_Path }
 $Build_Dest_Folder = "Windows 7 Pro SP1 x64"
-$OS_folder = "W7X64"
+$OS_folder = "W7x64"
 
 # Importing OS
 Write-Host "Mounting the Windows ISO file and import the OS ...."
